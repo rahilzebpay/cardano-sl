@@ -9,7 +9,7 @@ module Pos.Lrc.Fts
 import           Universum
 
 import           Control.Lens (makeLenses, makePrisms, uses)
-import           Data.Conduit (ConduitT, (.|), runConduitPure, await)
+import           Data.Conduit (ConduitT, await, runConduitPure, (.|))
 import qualified Data.Conduit.List as CL
 import           Data.List.NonEmpty (fromList)
 
@@ -17,7 +17,7 @@ import           Formatting (int, sformat, (%))
 
 import           Pos.Core.Common (Coin, SharedSeed (..), SlotLeaders, StakeholderId, coinToInteger,
                                   mkCoin, sumCoins, unsafeGetCoin)
-import           Pos.Core.Configuration (HasGeneratedSecrets, epochSlots, HasProtocolConstants)
+import           Pos.Core.Configuration (HasProtocolConstants, epochSlots)
 import           Pos.Core.Slotting (LocalSlotIndex (..))
 import           Pos.Crypto (deterministic, randomNumber)
 
@@ -275,7 +275,7 @@ followTheSatoshiM (SharedSeed seed) totalCoins = do
 -- testing this pure version as a proxy for the one above is insufficient.
 -- The monadic version needs to be tested in conjunction with the same conduit
 -- source that will feed it values in the real system.
-followTheSatoshi :: (HasGeneratedSecrets, HasProtocolConstants) => SharedSeed -> [(StakeholderId, Coin)] -> SlotLeaders
+followTheSatoshi :: (HasProtocolConstants) => SharedSeed -> [(StakeholderId, Coin)] -> SlotLeaders
 followTheSatoshi seed stakes
     | totalCoins > coinToInteger maxBound =
         error $ sformat
