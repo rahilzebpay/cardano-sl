@@ -262,9 +262,9 @@ executable cardano-generate-swagger-file
                        FlexibleContexts
                        MonadFailDesugaring
 
-
-executable cardano-integration-test
-  hs-source-dirs:      integration
+-- wit ~ Wallet-Integration-Test
+executable wit
+  hs-source-dirs:      integ
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts
                        -Wall
